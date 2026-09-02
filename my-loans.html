@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Loans — LoanEase PH</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root{--black:#FFFFFF;--white:#000000;--gold:#E31E24;--gold-light:#F44336;--gold-dim:#B71C1C;--red:#E31E24;--green:#4CAF50;--surface:#FFFFFF;--surface2:#F5F5F5;--surface3:#EEEEEE;--border:rgba(0,0,0,0.1);--border-gold:rgba(227,30,36,0.2);--text-muted:#666;--text-dim:#999;--font-display:'Arial',sans-serif;--font-body:'Segoe UI',sans-serif;--radius:8px;--radius-sm:4px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#FFFFFF;color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.6;min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#FFFFFF}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,0.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 48px;height:68px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.logo{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo-dot{width:8px;height:8px;background:var(--gold);border-radius:50%}
+.logo-acc{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:2px;list-style:none}
+.nav-links a{color:var(--text-muted);text-decoration:none;font-size:14px;padding:8px 15px;border-radius:var(--radius-sm);transition:color .2s,background .2s}
+.nav-links a:hover{color:var(--white);background:var(--surface2)}
+.nav-links a.active{color:var(--gold)}
+.nav-cta{background:var(--gold)!important;color:#FFF!important;font-weight:600!important;padding:9px 20px!important;border-radius:var(--radius-sm)!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+.hamburger span{width:22px;height:2px;background:var(--white);border-radius:1px}
+
+.page-wrap{max-width:1240px;margin:0 auto;padding:110px 48px 80px}
+.page-header h1{font-family:var(--font-display);font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.page-header h1 em{color:var(--gold);font-style:normal}
+.page-header p{color:var(--text-muted);font-size:15px;margin-bottom:36px}
+
+/* Credit summary */
+.credit-card{background:linear-gradient(135deg,#fff,#fafafa);border:1px solid var(--border-gold);border-radius:12px;padding:28px 32px;margin-bottom:32px;box-shadow:0 6px 20px rgba(227,30,36,.08)}
+.credit-row{display:flex;gap:36px;flex-wrap:wrap;align-items:center}
+.credit-cell{flex:1;min-width:160px}
+.credit-cell:first-child{padding:16px 18px;background:linear-gradient(135deg,rgba(46,125,82,.08),rgba(46,125,82,.05));border-radius:8px;border-left:4px solid #2e7d32;min-width:unset;flex:0 0 auto}
+.credit-lbl{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--text-muted);margin-bottom:6px}
+.credit-val{font-family:var(--font-display);font-size:26px;font-weight:800}
+.credit-cell:first-child .credit-val{font-size:32px;color:#2e7d32}
+.credit-val.avail{color:#2e7d32}
+.credit-val.used{color:var(--gold)}
+.credit-bar{margin-top:18px;height:8px;background:var(--surface3);border-radius:4px;overflow:hidden}
+.credit-bar-fill{height:100%;background:linear-gradient(90deg,#4CAF50,#E31E24);transition:width .3s}
+.credit-hint{margin-top:10px;font-size:12px;color:var(--text-muted)}
+
+/* Filter pills */
+.filter-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.filter-pill{background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:7px 16px;font-size:13px;color:var(--text-muted);cursor:pointer;transition:all .2s}
+.filter-pill:hover,.filter-pill.active{border-color:var(--gold);color:var(--gold);background:rgba(227,30,36,.04)}
+
+/* Loan cards */
+.loans-list{display:flex;flex-direction:column;gap:18px}
+.loan-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px 28px;transition:border-color .2s}
+.loan-card:hover{border-color:var(--border-gold)}
+.loan-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+.loan-id{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--text-muted);margin-bottom:4px}
+.loan-title{font-family:var(--font-display);font-size:18px;font-weight:700;margin-bottom:6px}
+.loan-meta{font-size:13px;color:var(--text-muted)}
+.loan-status{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:100px}
+.status-active{background:rgba(76,175,80,.15);color:#2e7d32;border:1px solid rgba(76,175,80,.3)}
+.status-completed{background:rgba(102,102,102,.1);color:#666;border:1px solid rgba(102,102,102,.2)}
+.status-pending{background:rgba(255,152,0,.15);color:#e65100;border:1px solid rgba(255,152,0,.3)}
+.status-defaulted{background:rgba(227,30,36,.15);color:var(--gold);border:1px solid rgba(227,30,36,.3)}
+
+.loan-items{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;padding:14px;background:var(--surface2);border-radius:var(--radius)}
+.loan-item-chip{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--border);padding:8px 14px;border-radius:100px;font-size:13px}
+.loan-item-chip .emoji{font-size:18px}
+.loan-item-img{width:32px;height:32px;border-radius:6px;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+
+.loan-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:16px;margin-bottom:18px;padding:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stat-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--text-muted);margin-bottom:4px}
+.stat-val{font-family:var(--font-display);font-size:17px;font-weight:700}
+
+.progress-row{margin-bottom:18px}
+.progress-row-top{display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:6px}
+.progress-bar{height:8px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:var(--green);transition:width .4s}
+
+.loan-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-pay{background:var(--gold);color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px;padding:10px 22px;border-radius:var(--radius-sm);border:none;cursor:pointer;transition:background .2s}
+.btn-pay:hover{background:var(--gold-light)}
+.btn-payoff{background:#2e7d32;color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px;padding:10px 22px;border-radius:var(--radius-sm);border:none;cursor:pointer;transition:background .2s}
+.btn-payoff:hover{background:#1b5e20}
+.btn-ghost{background:transparent;color:var(--text-muted);font-weight:600;font-size:13px;padding:10px 22px;border-radius:var(--radius-sm);border:1px solid var(--border);cursor:pointer;transition:all .2s}
+.btn-ghost:hover{color:var(--white);border-color:var(--text-muted)}
+
+.empty{text-align:center;padding:80px 20px;color:var(--text-muted)}
+.empty-icon{font-size:64px;margin-bottom:18px}
+.empty h2{font-family:var(--font-display);color:var(--white);margin-bottom:10px}
+.empty a.btn-cta{display:inline-block;margin-top:18px;background:var(--gold);color:#fff;text-decoration:none;font-weight:700;padding:12px 28px;border-radius:var(--radius-sm)}
+
+/* Toast */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--white);color:#fff;padding:14px 26px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;opacity:0;transition:transform .3s,opacity .3s;z-index:3000;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+footer{background:var(--surface2);border-top:1px solid var(--border);padding:36px 48px 24px}
+.footer-bottom{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-bottom p{font-size:12px;color:var(--text-dim)}
+.badges{display:flex;gap:8px}
+.badge-pill{background:var(--surface3);border:1px solid var(--border);border-radius:100px;padding:5px 12px;font-size:11px;color:var(--text-muted)}
+
+@media(max-width:960px){nav{padding:0 20px}.hamburger{display:flex}.nav-links{display:none;position:absolute;top:68px;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;padding:16px;gap:4px}.nav-links.open{display:flex}.page-wrap{padding:100px 20px 60px}.credit-card{padding:22px}.loan-card{padding:20px}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="index.html"><span class="logo-dot"></span>Loan<span class="logo-acc">Ease</span>&nbsp;PH</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="items.html">Items</a></li>
+    <li><a href="compare.html">Compare</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="calculator.html">Calculator</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li id="nav-my-loans-li" style="display:none"><a href="my-loans.html" class="active">My loans</a></li>
+    <li id="nav-auth-li"><a href="login.html" class="nav-cta">Login</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <h1>My <em>loans</em></h1>
+    <p>Track every loan, see what you owe, and make payments.</p>
+  </div>
+
+  <!-- Credit summary -->
+  <div class="credit-card" id="credit-card" style="display:none">
+    <div class="credit-row">
+      <div class="credit-cell">
+        <div class="credit-lbl">CREDIT SCORE</div>
+        <div class="credit-val" id="credit-score" style="color:#2e7d32">650</div>
+      </div>
+      <div class="credit-cell">
+        <div class="credit-lbl">CREDIT LIMIT</div>
+        <div class="credit-val" id="credit-limit">₱0</div>
+      </div>
+      <div class="credit-cell">
+        <div class="credit-lbl">AVAILABLE</div>
+        <div class="credit-val avail" id="credit-available">₱0</div>
+      </div>
+      <div class="credit-cell">
+        <div class="credit-lbl">USED</div>
+        <div class="credit-val used" id="credit-used">₱0</div>
+      </div>
+    </div>
+    <div class="credit-bar"><div class="credit-bar-fill" id="credit-bar-fill" style="width:0%"></div></div>
+    <div class="credit-hint" id="credit-hint">Your credit limit is based on your monthly income and existing debts. Your credit score impacts which items you can borrow.</div>
+  </div>
+
+  <!-- Filter pills -->
+  <div class="filter-row" id="filter-row">
+    <span class="filter-pill active" data-filter="all" onclick="setFilter('all',this)">All</span>
+    <span class="filter-pill" data-filter="active" onclick="setFilter('active',this)">Active</span>
+    <span class="filter-pill" data-filter="completed" onclick="setFilter('completed',this)">Completed</span>
+    <span class="filter-pill" data-filter="pending" onclick="setFilter('pending',this)">Pending</span>
+  </div>
+
+  <!-- Loans list -->
+  <div class="loans-list" id="loans-list"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="footer-bottom">
+    <p>© 2026 LoanEase PH · For demonstration only</p>
+    <div class="badges"><span class="badge-pill">SEC Registered</span><span class="badge-pill">BSP Compliant</span><span class="badge-pill">SSL Secured</span></div>
+  </div>
+</footer>
+
+<script src="js/my-loans.js"></script>
+<script src="js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loanease-app
+spec:
+  selector:
+    matchLabels:
+      app: loanease-app
+  template:
+    metadata:
+      labels:
+        app: loanease-app
+    spec:
+      containers:
+        - name: loanease-app
+          # IMPORTANT: change "victor" to your surname.
+          # Image must match what you built with: docker build -t loanease-app-victor:v1 .
+          image: loanease-app-victor:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: db-host
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: db-name
+            - name: DB_USER
+              value: "root"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: mysql-root-password
+            - name: DB_PORT
+              value: "3306"
+            - name: PORT
+              value: "3000"

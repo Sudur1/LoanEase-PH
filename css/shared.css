@@ -1,0 +1,211 @@
+/* LoanEase PH — Shared CSS */
+:root {
+  --black: #FFFFFF;
+  --white: #000000;
+  --cream: #FFF5F5;
+  --gold: #E31E24;
+  --gold-light: #F44336;
+  --gold-dim: #B71C1C;
+  --red: #E31E24;
+  --green: #4CAF50;
+  --surface: #FFFFFF;
+  --surface2: #F5F5F5;
+  --surface3: #EEEEEE;
+  --border: rgba(0,0,0,0.1);
+  --border-gold: rgba(227,30,36,0.2);
+  --text-muted: #666;
+  --text-dim: #999;
+  --font-display: 'Arial', sans-serif;
+  --font-body: 'Segoe UI', sans-serif;
+  --radius: 8px;
+  --radius-sm: 4px;
+}
+
+* , *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 3px;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 48px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--white);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+
+.logo-acc {
+  color: var(--gold);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px 15px;
+  border-radius: var(--radius-sm);
+  transition: color .2s, background .2s;
+}
+
+.nav-links a:hover {
+  color: var(--white);
+  background: var(--surface2);
+}
+
+.nav-links a.active {
+  color: var(--gold);
+}
+
+.nav-cta {
+  background: var(--gold) !important;
+  color: #FFF !important;
+  font-weight: 600 !important;
+  padding: 9px 20px !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+.nav-cta:hover {
+  background: var(--gold-light) !important;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.hamburger span {
+  width: 22px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 1px;
+  transition: all .3s;
+}
+
+/* FOOTER */
+footer {
+  background: var(--surface2);
+  border-top: 1px solid var(--border);
+  padding: 36px 48px 24px;
+}
+
+.footer-bottom {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-bottom p {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.badges {
+  display: flex;
+  gap: 8px;
+}
+
+.badge-pill {
+  background: var(--surface3);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 5px 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* RESPONSIVE */
+@media(max-width: 960px) {
+  nav {
+    padding: 0 20px;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-direction: column;
+    padding: 16px;
+    gap: 4px;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+}

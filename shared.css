@@ -1,0 +1,23 @@
+/* LoanEase PH — Shared Styles */
+:root {
+  --black: #FFFFFF;
+  --white: #000000;
+  --cream: #FFF5F5;
+  --gold: #E31E24;
+  --gold-light: #F44336;
+  --gold-dim: #B71C1C;
+  --red: #E31E24;
+  --green: #4CAF50;
+  --surface: #FFFFFF;
+  --surface2: #F5F5F5;
+  --surface3: #EEEEEE;
+  --border: rgba(0,0,0,0.1);
+  --border-gold: rgba(227,30,36,0.2);
+  --text-muted: #666;
+  --text-dim: #999;
+  --font-display: 'Arial', sans-serif;
+  --font-body: 'Segoe UI', sans-serif;
+  --radius: 8px;
+  --radius-sm: 4px;
+}
+ 

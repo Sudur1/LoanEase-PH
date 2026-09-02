@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — LoanEase PH</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root{--black:#FFFFFF;--white:#000000;--gold:#E31E24;--gold-light:#F44336;--gold-dim:#B71C1C;--red:#E31E24;--green:#4CAF50;--surface:#FFFFFF;--surface2:#F5F5F5;--surface3:#EEEEEE;--border:rgba(0,0,0,0.1);--border-gold:rgba(227,30,36,0.2);--text-muted:#666;--text-dim:#999;--font-display:'Arial',sans-serif;--font-body:'Segoe UI',sans-serif;--radius:8px;--radius-sm:4px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--black);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.6;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,0.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 48px;height:68px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.logo{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo-dot{width:8px;height:8px;background:var(--gold);border-radius:50%}
+.logo-acc{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:2px;list-style:none}
+.nav-links a{color:var(--text-muted);text-decoration:none;font-size:14px;padding:8px 15px;border-radius:var(--radius-sm);transition:color .2s,background .2s}
+.nav-links a:hover{color:var(--white);background:var(--surface2)}
+.nav-links a.active{color:var(--gold)}
+.nav-cta{background:var(--gold)!important;color:var(--black)!important;font-weight:600!important;padding:9px 20px!important;border-radius:var(--radius-sm)!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+.hamburger span{width:22px;height:2px;background:var(--white);border-radius:1px}
+
+.hero{padding:120px 48px 80px;max-width:1240px;margin:0 auto;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,0.1);border:1px solid var(--border-gold);padding:6px 14px;border-radius:100px;margin-bottom:24px}
+.eyebrow-dot{width:5px;height:5px;background:var(--gold);border-radius:50%}
+h1{font-family:var(--font-display);font-size:clamp(38px,5vw,64px);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-bottom:22px}
+h1 em{color:var(--gold);font-style:normal}
+.hero-p{color:var(--text-muted);font-size:17px;max-width:580px;margin:0 auto 48px;line-height:1.75}
+.stats-band{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);border-radius:var(--radius);overflow:hidden;max-width:900px;margin:0 auto}
+.stat-box{background:var(--surface);padding:28px;text-align:center}
+.stat-num{font-family:var(--font-display);font-size:34px;font-weight:800}
+.stat-num span{color:var(--gold)}
+.stat-label{font-size:13px;color:var(--text-muted);margin-top:4px}
+
+.section{max-width:1240px;margin:0 auto;padding:80px 48px}
+.sec-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:block}
+.sec-title{font-family:var(--font-display);font-size:clamp(28px,3.5vw,40px);font-weight:800;letter-spacing:-.02em;margin-bottom:20px}
+.sec-title em{color:var(--gold);font-style:normal}
+
+/* STORY */
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.story-text p{color:var(--text-muted);font-size:15px;line-height:1.8;margin-bottom:16px}
+.story-visual{background:linear-gradient(135deg,#F5F5F5,#EFEFEF);border:1px solid #DDD;border-radius:8px;padding:40px;display:flex;flex-direction:column;gap:18px}
+.story-stat{display:flex;align-items:center;gap:16px;padding:16px;background:var(--surface3);border-radius:var(--radius-sm)}
+.story-stat-icon{font-size:24px;flex-shrink:0}
+.story-stat-text .n{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--gold)}
+.story-stat-text .l{font-size:13px;color:var(--text-muted);margin-top:2px}
+
+/* VALUES */
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.value-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:border-color .2s}
+.value-card:hover{border-color:var(--border-gold)}
+.value-icon{font-size:30px;margin-bottom:14px}
+.value-title{font-family:var(--font-display);font-size:17px;font-weight:700;margin-bottom:8px}
+.value-desc{font-size:13px;color:var(--text-muted);line-height:1.7}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.team-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;transition:border-color .2s}
+.team-card:hover{border-color:var(--border-gold)}
+.team-avatar{width:68px;height:68px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;font-family:var(--font-display);color:var(--black)}
+.team-name{font-family:var(--font-display);font-size:15px;font-weight:700;margin-bottom:4px}
+.team-role{font-size:12px;color:var(--text-muted)}
+
+/* PARTNERS */
+.partners{max-width:1240px;margin:0 auto;padding:0 48px 80px;text-align:center}
+.partner-logos{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:32px}
+.partner-logo{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 24px;font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--text-muted)}
+
+/* CTA */
+.cta-banner{max-width:1240px;margin:0 auto;padding:0 48px 80px}
+.cta-inner{background:linear-gradient(135deg,#F5F5F5,#EFEFEF);border:1px solid #DDD;border-radius:8px;padding:60px;text-align:center}
+.cta-inner h2{font-family:var(--font-display);font-size:32px;font-weight:800;margin-bottom:10px}
+.cta-inner p{color:var(--text-muted);margin-bottom:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700;font-size:14px;padding:13px 28px;border-radius:var(--radius-sm);text-decoration:none;border:none;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--gold);color:var(--black)}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid var(--border);margin-left:10px}
+.btn-ghost:hover{border-color:rgba(255,255,255,.25);background:var(--surface2)}
+
+footer{background:var(--surface);border-top:1px solid var(--border);padding:36px 48px 24px}
+.footer-bottom{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-bottom p{font-size:12px;color:var(--text-dim)}
+.badges{display:flex;gap:8px}
+.badge-pill{background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:5px 12px;font-size:11px;color:var(--text-muted)}
+.footer-links a{color:var(--text-muted);text-decoration:none;font-size:13px;padding:6px 12px;transition:color .2s}
+.footer-links a:hover{color:var(--white)}
+
+@media(max-width:960px){nav{padding:0 20px}.hamburger{display:flex}.nav-links{display:none;position:absolute;top:68px;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;padding:16px;gap:4px}.nav-links.open{display:flex}.hero,.section,.cta-banner,.partners{padding-left:20px;padding-right:20px}.story-grid{grid-template-columns:1fr}.team-grid{grid-template-columns:1fr 1fr}.values-grid{grid-template-columns:1fr 1fr}.stats-band{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.values-grid,.team-grid{grid-template-columns:1fr}.stats-band{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="index.html"><span class="logo-dot"></span>Loan<span class="logo-acc">Ease</span>&nbsp;PH</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="items.html">Items</a></li>
+    <li><a href="compare.html">Compare</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="calculator.html">Calculator</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li id="nav-my-loans-li" style="display:none"><a href="my-loans.html">My loans</a></li>
+    <li id="nav-auth-li"><a href="login.html" class="nav-cta">Login</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow"><span class="eyebrow-dot"></span>Est. 2019 · Philippines</div>
+  <h1>Making ownership <em>accessible</em><br>for every Filipino.</h1>
+  <p class="hero-p">LoanEase PH was built on a simple belief: every hardworking Filipino deserves access to the things that improve their life — without the stress of upfront costs.</p>
+  <div class="stats-band">
+    <div class="stat-box"><div class="stat-num">50<span>K+</span></div><div class="stat-label">Happy customers</div></div>
+    <div class="stat-box"><div class="stat-num">₱<span>2B+</span></div><div class="stat-label">Loans disbursed</div></div>
+    <div class="stat-box"><div class="stat-num">5<span>min</span></div><div class="stat-label">Avg. approval</div></div>
+    <div class="stat-box"><div class="stat-num">98<span>%</span></div><div class="stat-label">Satisfaction rate</div></div>
+  </div>
+</div>
+
+<!-- STORY -->
+<div class="section" id="story">
+  <div class="story-grid">
+    <div class="story-text">
+      <span class="sec-eyebrow">Our story</span>
+      <h2 class="sec-title">From a small idea to a <em>national platform.</em></h2>
+      <p>LoanEase PH was founded in 2019 by a group of financial technology professionals who saw a gap in the market: millions of Filipinos wanted to own smartphones, appliances, and vehicles, but couldn't afford to pay upfront — and traditional banks were too slow, too complex, and too expensive.</p>
+      <p>We built a platform that makes the lending process transparent, fast, and genuinely fair. No confusing fine print. No surprise charges. Just a straightforward agreement between us and you.</p>
+      <p>Today, we serve customers across all 7,641 islands of the Philippines, with partnerships spanning 200+ brands and retailers. We're SEC-registered and BSP-compliant, and we're proud of every loan we've approved.</p>
+    </div>
+    <div class="story-visual">
+      <div class="story-stat"><span class="story-stat-icon">🏢</span><div class="story-stat-text"><div class="n">2019</div><div class="l">Year founded in Makati City</div></div></div>
+      <div class="story-stat"><span class="story-stat-icon">🌏</span><div class="story-stat-text"><div class="n">7,641</div><div class="l">Islands served nationwide</div></div></div>
+      <div class="story-stat"><span class="story-stat-icon">🏷️</span><div class="story-stat-text"><div class="n">200+</div><div class="l">Brand & retailer partners</div></div></div>
+      <div class="story-stat"><span class="story-stat-icon">👩‍💼</span><div class="story-stat-text"><div class="n">180+</div><div class="l">Team members across PH</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- VALUES -->
+<div class="section" style="padding-top:0">
+  <span class="sec-eyebrow">What we stand for</span>
+  <h2 class="sec-title">Our <em>values</em></h2>
+  <div class="values-grid">
+    <div class="value-card"><div class="value-icon">🔍</div><div class="value-title">Full Transparency</div><div class="value-desc">What you see is what you pay. Every fee, every interest charge, every peso is shown upfront before you commit.</div></div>
+    <div class="value-card"><div class="value-icon">⚡</div><div class="value-title">Speed First</div><div class="value-desc">We know your time matters. Our system approves loans in under 5 minutes — no branch visits, no paper forms.</div></div>
+    <div class="value-card"><div class="value-icon">🛡️</div><div class="value-title">Responsible Lending</div><div class="value-desc">We check your income vs. your monthly payment to make sure you're never over-extended. Your financial health is our priority.</div></div>
+    <div class="value-card"><div class="value-icon">🤝</div><div class="value-title">Customer Partnership</div><div class="value-desc">We're not just a lender — we're your partner. No penalties for early payment. Flexible restructuring if life gets tough.</div></div>
+    <div class="value-card"><div class="value-icon">🔒</div><div class="value-title">Data Security</div><div class="value-desc">Your personal and financial data is encrypted, BSP-audited, and never sold to third parties. Ever.</div></div>
+    <div class="value-card"><div class="value-icon">🇵🇭</div><div class="value-title">Filipino First</div><div class="value-desc">Built in the Philippines, for Filipinos. We understand your needs, your culture, and your dreams.</div></div>
+  </div>
+</div>
+
+<!-- TEAM -->
+<div class="section" id="team" style="padding-top:0">
+  <span class="sec-eyebrow">The people behind it</span>
+  <h2 class="sec-title">Meet the <em>team</em></h2>
+  <div class="team-grid">
+    <div class="team-card"><div class="team-avatar" style="background:linear-gradient(135deg,var(--gold-dim),var(--gold))">JR</div><div class="team-name">Jose Reyes</div><div class="team-role">Co-Founder & CEO</div></div>
+    <div class="team-card"><div class="team-avatar" style="background:linear-gradient(135deg,#2E5D7A,#4A8FAF)">MS</div><div class="team-name">Maria Santos</div><div class="team-role">Co-Founder & CTO</div></div>
+    <div class="team-card"><div class="team-avatar" style="background:linear-gradient(135deg,#5D2E2E,#AF4A4A)">AL</div><div class="team-name">Ana Lim</div><div class="team-role">Chief Risk Officer</div></div>
+    <div class="team-card"><div class="team-avatar" style="background:linear-gradient(135deg,#2E5D3E,#4AAF6A)">BP</div><div class="team-name">Ben Pascual</div><div class="team-role">Head of Operations</div></div>
+  </div>
+</div>
+
+<!-- PARTNERS -->
+<div class="partners">
+  <span class="sec-eyebrow">Trusted by</span>
+  <h2 class="sec-title">Our <em>partners</em></h2>
+  <div class="partner-logos">
+    <div class="partner-logo">Apple PH</div>
+    <div class="partner-logo">Samsung</div>
+    <div class="partner-logo">LG Electronics</div>
+    <div class="partner-logo">Toyota Motor PH</div>
+    <div class="partner-logo">Honda Cars PH</div>
+    <div class="partner-logo">Mitsubishi Motors</div>
+    <div class="partner-logo">SM Appliance</div>
+    <div class="partner-logo">Abenson</div>
+    <div class="partner-logo">GCash</div>
+    <div class="partner-logo">Maya</div>
+    <div class="partner-logo">BPI</div>
+    <div class="partner-logo">BDO</div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <div class="cta-inner">
+    <h2>Join 50,000+ Filipinos who trust LoanEase</h2>
+    <p>Start your application today — no credit card required.</p>
+    <div>
+      <a href="items.html" class="btn btn-gold">Browse items →</a>
+      <a href="contact.html" class="btn btn-ghost">Talk to us</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <p>© 2026 LoanEase PH · For demonstration only</p>
+    <div class="footer-links"><a href="index.html">Home</a><a href="items.html">Items</a><a href="calculator.html">Calculator</a><a href="contact.html">Contact</a></div>
+    <div class="badges"><span class="badge-pill">SEC Registered</span><span class="badge-pill">BSP Compliant</span></div>
+  </div>
+</footer>
+
+<script>function toggleNav(){document.getElementById('nav-links').classList.toggle('open')}</script>
+<script src="js/nav.js"></script>
+</body>
+</html>

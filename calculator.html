@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Calculator — LoanEase PH</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root{--black:#FFFFFF;--white:#000000;--gold:#E31E24;--gold-light:#F44336;--gold-dim:#B71C1C;--red:#E31E24;--green:#4CAF50;--surface:#FFFFFF;--surface2:#F5F5F5;--surface3:#EEEEEE;--border:rgba(0,0,0,0.1);--border-gold:rgba(227,30,36,0.2);--text-muted:#666;--text-dim:#999;--font-display:'Arial',sans-serif;--font-body:'Segoe UI',sans-serif;--radius:8px;--radius-sm:4px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--black);color:var(--white);font-family:var(--font-body);font-size:15px;line-height:1.6;overflow-x:hidden;min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,0.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 48px;height:68px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.logo{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo-dot{width:8px;height:8px;background:var(--gold);border-radius:50%}
+.logo-acc{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:2px;list-style:none}
+.nav-links a{color:var(--text-muted);text-decoration:none;font-size:14px;padding:8px 15px;border-radius:var(--radius-sm);transition:color .2s,background .2s}
+.nav-links a:hover{color:var(--white);background:var(--surface2)}
+.nav-links a.active{color:var(--gold)}
+.nav-cta{background:var(--gold)!important;color:var(--black)!important;font-weight:600!important;padding:9px 20px!important;border-radius:var(--radius-sm)!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+.hamburger span{width:22px;height:2px;background:var(--white);border-radius:1px}
+
+.page-wrap{max-width:1100px;margin:0 auto;padding:110px 48px 80px}
+.page-title{font-family:var(--font-display);font-size:clamp(34px,4vw,54px);font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.page-title em{color:var(--gold);font-style:normal}
+.page-sub{color:var(--text-muted);font-size:16px;margin-bottom:48px}
+
+/* LAYOUT */
+.calc-layout{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+
+/* LEFT PANEL */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px}
+.panel-title{font-family:var(--font-display);font-size:18px;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.panel-icon{font-size:20px}
+
+.field{margin-bottom:22px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.09em;margin-bottom:9px}
+.field input{width:100%;background:var(--surface2);color:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;font-size:15px;font-family:var(--font-body);transition:border-color .2s}
+.field input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
+.field input::placeholder{color:var(--text-dim)}
+.field-note{font-size:12px;color:var(--text-muted);margin-top:6px}
+
+/* PILL SELECTOR */
+.pill-row{display:flex;flex-wrap:wrap;gap:8px}
+.sel-pill{background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:7px 16px;font-size:13px;cursor:pointer;transition:all .2s;color:var(--text-muted);user-select:none}
+.sel-pill:hover{border-color:rgba(201,168,76,.4);color:var(--white)}
+.sel-pill.active{background:rgba(201,168,76,.15);border-color:var(--gold);color:var(--gold);font-weight:600}
+
+/* RANGE SLIDER */
+.range-wrap{position:relative;padding-bottom:20px}
+input[type=range]{width:100%;-webkit-appearance:none;height:4px;border-radius:2px;background:var(--surface3);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--gold);border:3px solid var(--black);cursor:pointer;transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
+.range-labels{display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--text-dim)}
+
+/* INCOME */
+.income-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:22px}
+.income-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--text-muted);margin-bottom:14px}
+.income-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.elig-result{border-radius:var(--radius-sm);padding:11px 14px;font-size:13px;line-height:1.55;display:none}
+.elig-ok{background:rgba(46,125,82,.15);border:1px solid rgba(46,125,82,.3);color:#6fcf97}
+.elig-warn{background:rgba(217,79,61,.15);border:1px solid rgba(217,79,61,.3);color:#f28b82}
+.elig-caution{background:rgba(201,168,76,.1);border:1px solid var(--border-gold);color:var(--gold)}
+
+/* RIGHT PANEL — RESULTS */
+.result-main{background:linear-gradient(135deg,#F5F5F5,#EFEFEF);border:1px solid #DDD;border-radius:8px;padding:32px;margin-bottom:16px}
+.result-label{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:8px}
+.result-big{font-family:var(--font-display);font-size:48px;font-weight:800;color:var(--gold);line-height:1}
+.result-sub{font-size:13px;color:var(--text-muted);margin-top:6px}
+.results-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.result-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.result-box .result-label{margin-bottom:6px}
+.result-box .result-val{font-family:var(--font-display);font-size:22px;font-weight:800}
+.result-box .result-val.red{color:#f28b82}
+.result-box .result-val.grn{color:#6fcf97}
+
+/* BREAKDOWN BAR */
+.breakdown-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.breakdown-title{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:12px}
+.bar-labels{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
+.bar-p{color:var(--gold)}
+.bar-i{color:#f28b82}
+.amort-bar{height:10px;background:var(--surface3);border-radius:5px;overflow:hidden}
+.amort-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--gold-dim),var(--gold));transition:width .4s ease}
+
+/* SCHEDULE TABLE */
+.schedule-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.sch-title{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.sch-toggle{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:5px 12px;font-size:12px;cursor:pointer;color:var(--text-muted);transition:all .2s}
+.sch-toggle:hover{color:var(--white)}
+.sch-table{width:100%;border-collapse:collapse;font-size:12px}
+.sch-table th{color:var(--text-muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)}
+.sch-table td{padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.04)}
+.sch-table tr:last-child td{border-bottom:none}
+.sch-table td:not(:first-child){text-align:right}
+.sch-table .td-int{color:#f28b82}
+.sch-table .td-bal{color:var(--text-muted)}
+.sch-hidden{display:none}
+
+.cta-row{margin-top:20px;display:flex;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700;font-size:14px;padding:12px 24px;border-radius:var(--radius-sm);text-decoration:none;cursor:pointer;border:none;transition:all .2s;justify-content:center}
+.btn-gold{background:var(--gold);color:var(--black)}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:rgba(255,255,255,.25);background:var(--surface2)}
+
+/* FOOTER */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:36px 48px 24px}
+.footer-bottom{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-bottom p{font-size:12px;color:var(--text-dim)}
+.badges{display:flex;gap:8px}
+.badge-pill{background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:5px 12px;font-size:11px;color:var(--text-muted)}
+.footer-links{display:flex;gap:4px}
+.footer-links a{color:var(--text-muted);text-decoration:none;font-size:13px;padding:6px 12px;border-radius:var(--radius-sm);transition:color .2s}
+.footer-links a:hover{color:var(--white)}
+
+@media(max-width:960px){nav{padding:0 20px}.hamburger{display:flex}.nav-links{display:none;position:absolute;top:68px;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;padding:16px;gap:4px}.nav-links.open{display:flex}.page-wrap{padding:100px 20px 60px}.calc-layout{grid-template-columns:1fr}}
+@media(max-width:560px){.results-grid{grid-template-columns:1fr}.income-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html"><span class="logo-dot"></span>Loan<span class="logo-acc">Ease</span>&nbsp;PH</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="items.html">Items</a></li>
+    <li><a href="compare.html">Compare</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="calculator.html" class="active">Calculator</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li id="nav-my-loans-li" style="display:none"><a href="my-loans.html">My loans</a></li>
+    <li id="nav-auth-li"><a href="login.html" class="nav-cta">Login</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-wrap">
+  <h1 class="page-title">Loan <em>Calculator</em></h1>
+  <p class="page-sub">Customize your interest rate and repayment term. Enter your income to see which plans are within a safe budget.</p>
+
+  <div class="calc-layout">
+    <!-- LEFT: INPUTS -->
+    <div>
+      <div class="panel">
+        <div class="panel-title"><span class="panel-icon">💰</span>Loan details</div>
+
+        <div class="field">
+          <label>Loan amount (₱)</label>
+          <input type="number" id="c-amount" value="59990" min="1000" step="500" oninput="calc()">
+          <div class="field-note">Minimum loanable: ₱1,000</div>
+        </div>
+
+        <div class="field">
+          <label>Annual interest rate</label>
+          <div class="pill-row" id="rate-pills">
+            <!-- generated by JS -->
+          </div>
+          <div style="margin-top:14px">
+            <label style="font-size:12px;color:var(--text-muted);letter-spacing:.09em;text-transform:uppercase;font-weight:600">Or enter custom rate (%)</label>
+            <input type="number" id="c-rate-custom" placeholder="e.g. 13.5" min="0" max="100" step="0.5" oninput="setCustomRate()" style="margin-top:9px">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Loan term (months)</label>
+          <div class="pill-row" id="month-pills">
+            <!-- generated by JS -->
+          </div>
+          <div style="margin-top:14px">
+            <label style="font-size:12px;color:var(--text-muted);letter-spacing:.09em;text-transform:uppercase;font-weight:600">Or drag to choose</label>
+            <div class="range-wrap" style="margin-top:12px">
+              <input type="range" id="c-months-range" min="1" max="60" value="12" oninput="setMonthRange()">
+              <div class="range-labels"><span>1 mo</span><span id="range-label">12 months</span><span>60 mo</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:16px">
+        <div class="panel-title"><span class="panel-icon">🧾</span>Eligibility check</div>
+        <div class="income-box">
+          <div class="income-title">Your financial info</div>
+          <div class="income-row">
+            <div class="field" style="margin-bottom:0">
+              <label>Monthly income (₱)</label>
+              <input type="number" id="c-income" placeholder="e.g. 30000" min="0" oninput="calc()">
+            </div>
+            <div class="field" style="margin-bottom:0">
+              <label>Other monthly debts (₱)</label>
+              <input type="number" id="c-debts" placeholder="e.g. 5000" min="0" value="0" oninput="calc()">
+            </div>
+          </div>
+          <div class="elig-result" id="elig-result"></div>
+        </div>
+        <div class="field-note" style="margin-top:0">💡 We recommend that your monthly installment does not exceed <strong>30%</strong> of your net monthly income (minus existing debts). This is your Debt-to-Income (DTI) ratio.</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESULTS -->
+    <div>
+      <div class="result-main">
+        <div class="result-label">Monthly payment</div>
+        <div class="result-big" id="r-monthly">₱—</div>
+        <div class="result-sub" id="r-sub">Enter loan details to calculate</div>
+      </div>
+
+      <div class="results-grid">
+        <div class="result-box">
+          <div class="result-label">Principal</div>
+          <div class="result-val" id="r-principal">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Total interest</div>
+          <div class="result-val red" id="r-interest">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Total repayment</div>
+          <div class="result-val grn" id="r-total">—</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Effective monthly rate</div>
+          <div class="result-val" id="r-effrate">—</div>
+        </div>
+      </div>
+
+      <div class="breakdown-box">
+        <div class="breakdown-title">Principal vs Interest breakdown</div>
+        <div class="bar-labels">
+          <span class="bar-p">Principal <span id="r-pct-p">—</span></span>
+          <span class="bar-i">Interest <span id="r-pct-i">—</span></span>
+        </div>
+        <div class="amort-bar"><div class="amort-fill" id="r-bar" style="width:0%"></div></div>
+      </div>
+
+      <div class="schedule-box">
+        <div class="sch-title">
+          <span>Amortization schedule</span>
+          <button class="sch-toggle" onclick="toggleSchedule()" id="sch-btn">Show</button>
+        </div>
+        <div id="sch-table-wrap" class="sch-hidden"></div>
+      </div>
+
+      <div class="cta-row">
+        <a href="items.html" class="btn btn-gold" style="flex:1">Shop with this budget →</a>
+        <a href="contact.html" class="btn btn-ghost">Talk to an agent</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <p>© 2026 LoanEase PH · For demonstration only</p>
+    <div class="footer-links"><a href="index.html">Home</a><a href="items.html">Items</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
+    <div class="badges"><span class="badge-pill">SEC Registered</span><span class="badge-pill">BSP Compliant</span></div>
+  </div>
+</footer>
+
+<script>
+const RATE_OPTIONS=[5,8,10,12,15,18,20,22,25];
+const MONTH_OPTIONS=[3,6,12,18,24,36,48,60];
+let selRate=12;
+let selMonths=12;
+let scheduleVisible=false;
+
+function fmt(n){return'₱'+Math.round(n).toLocaleString('en-PH')}
+function pmt(p,r,n){const mr=r/100/12;if(!mr||!n)return p;return p*(mr*Math.pow(1+mr,n))/(Math.pow(1+mr,n)-1)}
+
+function buildPills(){
+  document.getElementById('rate-pills').innerHTML=RATE_OPTIONS.map(r=>`<span class="sel-pill${r===selRate?' active':''}" onclick="setRate(${r})">${r}%</span>`).join('');
+  document.getElementById('month-pills').innerHTML=MONTH_OPTIONS.map(m=>`<span class="sel-pill${m===selMonths?' active':''}" onclick="setMonths(${m})">${m} mo</span>`).join('');
+}
+
+function setRate(r){
+  selRate=r;
+  document.getElementById('c-rate-custom').value='';
+  document.querySelectorAll('#rate-pills .sel-pill').forEach((el,i)=>{el.classList.toggle('active',RATE_OPTIONS[i]===r)});
+  calc();
+}
+function setCustomRate(){
+  const v=parseFloat(document.getElementById('c-rate-custom').value);
+  if(!isNaN(v)&&v>0){selRate=v;document.querySelectorAll('#rate-pills .sel-pill').forEach(el=>el.classList.remove('active'));calc();}
+}
+function setMonths(m){
+  selMonths=m;
+  document.querySelectorAll('#month-pills .sel-pill').forEach((el,i)=>{el.classList.toggle('active',MONTH_OPTIONS[i]===m)});
+  document.getElementById('c-months-range').value=m;
+  document.getElementById('range-label').textContent=m+' months';
+  calc();
+}
+function setMonthRange(){
+  const v=parseInt(document.getElementById('c-months-range').value);
+  selMonths=v;
+  document.getElementById('range-label').textContent=v+' months';
+  document.querySelectorAll('#month-pills .sel-pill').forEach((el,i)=>{el.classList.toggle('active',MONTH_OPTIONS[i]===v)});
+  calc();
+}
+
+function calc(){
+  const amount=parseFloat(document.getElementById('c-amount').value)||0;
+  const income=parseFloat(document.getElementById('c-income').value)||0;
+  const debts=parseFloat(document.getElementById('c-debts').value)||0;
+
+  if(!amount||!selRate||!selMonths){
+    document.getElementById('r-monthly').textContent='₱—';
+    document.getElementById('r-sub').textContent='Enter loan details to calculate';
+    return;
+  }
+
+  const monthly=pmt(amount,selRate,selMonths);
+  const total=monthly*selMonths;
+  const interest=total-amount;
+  const pctP=Math.round((amount/total)*100);
+  const pctI=100-pctP;
+  const effRate=(selRate/12).toFixed(2);
+
+  document.getElementById('r-monthly').textContent=fmt(monthly);
+  document.getElementById('r-sub').textContent=`Over ${selMonths} months at ${selRate}% annual interest`;
+  document.getElementById('r-principal').textContent=fmt(amount);
+  document.getElementById('r-interest').textContent=fmt(interest);
+  document.getElementById('r-total').textContent=fmt(total);
+  document.getElementById('r-effrate').textContent=effRate+'%/mo';
+  document.getElementById('r-pct-p').textContent=pctP+'%';
+  document.getElementById('r-pct-i').textContent=pctI+'%';
+  document.getElementById('r-bar').style.width=pctP+'%';
+
+  // Eligibility
+  const res=document.getElementById('elig-result');
+  if(income>0){
+    res.style.display='block';
+    const availableIncome=income-debts;
+    const maxSafePayment=availableIncome*0.30;
+    const dti=(monthly/availableIncome)*100;
+
+    if(availableIncome<=0){
+      res.className='elig-result elig-warn';
+      res.innerHTML=`⚠️ Your existing debts (${fmt(debts)}) equal or exceed your income. Please review your finances.`;
+    } else if(monthly>availableIncome){
+      res.className='elig-result elig-warn';
+      res.innerHTML=`🚫 <strong>Not eligible.</strong> The monthly payment of ${fmt(monthly)} exceeds your available income of ${fmt(availableIncome)} (income minus existing debts). Even without interest, this loan is unaffordable at this term.`;
+    } else if(monthly>maxSafePayment){
+      const safeTerm=findSafeTerm(amount,selRate,maxSafePayment);
+      res.className='elig-result elig-warn';
+      res.innerHTML=`⚠️ <strong>High risk.</strong> Your DTI would be ${dti.toFixed(0)}% — above the recommended 30% limit. Max safe monthly payment: <strong>${fmt(maxSafePayment)}</strong>. Consider extending to <strong>${safeTerm} months</strong> or reducing the loan amount.`;
+    } else if(dti>20){
+      res.className='elig-result elig-caution';
+      res.innerHTML=`🟡 <strong>Manageable but watch it.</strong> DTI: ${dti.toFixed(0)}%. Your monthly payment of ${fmt(monthly)} is within limits (max ${fmt(maxSafePayment)}), but leaves limited financial buffer.`;
+    } else {
+      res.className='elig-result elig-ok';
+      res.innerHTML=`✅ <strong>Eligible!</strong> DTI: ${dti.toFixed(0)}% — well within the 30% safe limit. Monthly payment of ${fmt(monthly)} is comfortable for your income.`;
+    }
+  } else {
+    res.style.display='none';
+  }
+
+  if(scheduleVisible)buildSchedule(amount,monthly,selRate,selMonths);
+}
+
+function findSafeTerm(principal,rate,maxPmt){
+  for(let m=1;m<=120;m++){
+    if(pmt(principal,rate,m)<=maxPmt)return m;
+  }
+  return 120;
+}
+
+function buildSchedule(principal,monthly,rate,months){
+  const mr=rate/100/12;
+  let bal=principal;
+  let rows='';
+  for(let i=1;i<=months;i++){
+    const intPmt=bal*mr;
+    const prinPmt=monthly-intPmt;
+    bal=Math.max(0,bal-prinPmt);
+    rows+=`<tr>
+      <td>${i}</td>
+      <td>${fmt(monthly)}</td>
+      <td class="td-int">${fmt(intPmt)}</td>
+      <td>${fmt(prinPmt)}</td>
+      <td class="td-bal">${fmt(bal)}</td>
+    </tr>`;
+  }
+  document.getElementById('sch-table-wrap').innerHTML=`
+    <table class="sch-table">
+      <thead><tr><th>#</th><th>Payment</th><th>Interest</th><th>Principal</th><th>Balance</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+function toggleSchedule(){
+  scheduleVisible=!scheduleVisible;
+  const wrap=document.getElementById('sch-table-wrap');
+  const btn=document.getElementById('sch-btn');
+  if(scheduleVisible){
+    wrap.classList.remove('sch-hidden');
+    btn.textContent='Hide';
+    const amount=parseFloat(document.getElementById('c-amount').value)||0;
+    if(amount)buildSchedule(amount,pmt(amount,selRate,selMonths),selRate,selMonths);
+  }else{
+    wrap.classList.add('sch-hidden');
+    btn.textContent='Show';
+  }
+}
+
+function toggleNav(){document.getElementById('nav-links').classList.toggle('open')}
+
+buildPills();
+calc();
+</script>
+<script src="js/nav.js"></script>
+</body>
+</html>
